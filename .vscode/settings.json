@@ -1,0 +1,7 @@
+{
+    "editor.tabCompletion": "off",
+    "workbench.editor.enablePreviewFromCodeNavigation": false,
+    "files.associations": {
+        "pthread.h": "c"
+    }
+}
