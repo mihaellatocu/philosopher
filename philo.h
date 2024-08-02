@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtocu <marvin@.fr>                         #+#  +:+       +#+        */
+/*   By: mtocu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024-07-24 14:06:21 by mtocu             #+#    #+#             */
-/*   Updated: 2024-07-24 14:06:21 by mtocu            ###   ########.fr       */
+/*   Created: 2024/07/24 14:06:21 by mtocu             #+#    #+#             */
+/*   Updated: 2024/08/02 19:41:30 by mtocu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,20 @@
 ./philo 5 800 200 200 [5]
 */
 
+
+/* Ascii colors  */
+#define RST	"\033[0m"  		/* Reset to default color */
+#define RED	"\033[1;31m" 	/* Red */
+#define G	"\033[1;32m" 	/* Green */
+#define Y 	"\033[1;33m" 	/* Yellow */
+#define B	"\033[1;34m" 	/* Blue */
+#define M	"\033[1;35m" 	/* Magenta */
+#define C	"\033[1;36m" 	/* Cyan */
+#define W	"\033[1;37m" 	/* White */
+
+//for write fction macro
+#define DEBUG_MODE 0
+
 /* OPCODE for mutex | thread functions */
 
 typedef enum	e_opcode
@@ -41,16 +55,24 @@ typedef enum	e_opcode
 	DETACH
 }		t_opcode;
 
+typedef enum	e_time_code
+{
+	SECOND,
+	MILISECOND,
+	MICROSECOND,
+}			t_time_code;
 
-/* Ascii colors  */
-#define RST  "\033[0m"  /* Reset to default color */
-#define RED  "\033[1;31m" /* Red */
-#define G  "\033[1;32m" /* Green */
-#define Y  "\033[1;33m" /* Yellow */
-#define B  "\033[1;34m" /* Blue */
-#define M  "\033[1;35m" /* Magenta */
-#define C  "\033[1;36m" /* Cyan */
-#define W  "\033[1;37m" /* White */
+
+/* Philo states*/
+typedef enum e_philo_status
+{
+	EATING,
+	SLEEPING,
+	THINKING,
+	TAKE_FIRST_FORK,
+	TAKE_SECOND_FORK,
+	DIED,
+}			t_philo_status;
 
 /* code more readable */
 typedef pthread_mutex_t	t_mtx;
@@ -61,10 +83,9 @@ typedef struct s_table	t_table;
 /* Fork */
 typedef struct s_fork
 {
-	t_mtx	a;
 	t_mtx	fork;
 	int		fork_id;
-}        t_fork;
+}        	t_fork;
 
 typedef struct		s_philo
 {
@@ -72,9 +93,10 @@ typedef struct		s_philo
 	long		meals_counter;
 	bool		full;
 	long		last_meal_time; //time to pass from the last meal
-	t_fork		*left_fork;
-	t_fork		*right_fork;
+	t_fork		*first_fork;
+	t_fork		*second_fork;
 	pthread_t	thread_id;//a philo is a thread
+	t_mtx		philo_mutex;
 	t_table		*table;
 }					t_philo;
 
@@ -88,6 +110,9 @@ typedef struct s_table
 	long	nbr_limit_meals; //[5]  flag if -1
 	long	start_simulation;
 	bool	end_simulation; // a philo dies or all philos full
+	bool	all_threads_ready; //synco philos
+	t_mtx	table_mutex;
+	t_mtx	write_mutex;
 	t_fork	*forks; //array of forks🍴
 	t_philo	*philos; // array of philos
 
@@ -100,7 +125,32 @@ typedef struct s_table
 
 /* PROTOTYPES */
 
+/* utils */
 void	error_exit(const char *error);
+long	gettime(t_time_code time_code);
+void	precise_usleep(long usec, t_table *table);
+
+/* parsing */
 void    parse_input(t_table *table, char **av);
+
+/* init */
+void	data_init(t_table *table);
+
+/* safe functions */
 void	*safe_malloc(size_t bytes);
 void	safe_mutex_handle(t_mtx *mutex, t_opcode opcode);
+void	safe_thread_handle(pthread_t *thread, void *(*foo)(void *), void *data, t_opcode opcode);
+
+
+/*Setters and getters */
+void	set_bool(t_mtx *mutex, bool *dest, bool value);
+bool	get_bool(t_mtx *mutex, bool *value);
+long	get_long(t_mtx *mutex, long *value);
+void	set_long(t_mtx *mutex, long *dest, long value);
+bool	simulation_finished(t_table *table);
+
+/* Syncro utils */
+void	wait_all_threads(t_table *table);
+void	write_status(t_philo_status status, t_philo *philo, bool debug);
+
+void	dinner_start(t_table *table);

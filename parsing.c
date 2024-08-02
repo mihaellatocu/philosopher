@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtocu <marvin@.fr>                         #+#  +:+       +#+        */
+/*   By: mtocu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024-07-24 14:07:38 by mtocu             #+#    #+#             */
-/*   Updated: 2024-07-24 14:07:38 by mtocu            ###   ########.fr       */
+/*   Created: 2024/07/24 14:07:38 by mtocu             #+#    #+#             */
+/*   Updated: 2024/08/02 19:04:42 by mtocu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static const char *valid_input(const char *str)
 	number = str;
 	while (ft_isdigit(*str++))
 		++len;
-	if (len > 0)
+	if (len > 10)
 		error_exit("The value is too big, INT_MAX is the limit");
 	return (number);
 }
