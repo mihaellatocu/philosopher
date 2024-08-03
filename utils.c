@@ -6,7 +6,7 @@
 /*   By: mtocu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:49:26 by mtocu             #+#    #+#             */
-/*   Updated: 2024/08/02 19:30:26 by mtocu            ###   ########.fr       */
+/*   Updated: 2024/08/03 17:37:46 by mtocu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,30 @@ void	precise_usleep(long usec, t_table *table)
 		rem = usec - elapsed;
 
 		if (rem > 1e3)
-			usleep(usec / 2);
+			usleep(rem / 2);
 		else
 		{
 			while (gettime(MICROSECOND) - start < usec) //spinlock
 				;
 		}
 	}	
+}
+
+void	clean(t_table *table)
+{
+	t_philo *philo;
+	int		i;
+
+	i = -1;
+	while (++i < table->philo_nbr)
+	{
+		philo = table->philos + i;
+		safe_mutex_handle(&philo->philo_mutex, DESTROY);
+	}
+	safe_mutex_handle(&table->write_mutex, DESTROY);
+	safe_mutex_handle(&table->table_mutex, DESTROY);
+	free(table->forks);
+	free(table->philos);
 }
 
 void	error_exit(const char *error)

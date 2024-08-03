@@ -6,7 +6,7 @@
 /*   By: mtocu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 16:11:21 by mtocu             #+#    #+#             */
-/*   Updated: 2024/08/02 19:10:21 by mtocu            ###   ########.fr       */
+/*   Updated: 2024/08/03 16:14:58 by mtocu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	write_status(t_philo_status status, t_philo *philo, bool debug)
 		write_status_debug(status, philo, elapsed);
 	else
 	{
-		if ((TAKE_FIRST_FORK == status || TAKE_FIRST_FORK == status)
+		if ((TAKE_FIRST_FORK == status || TAKE_SECOND_FORK == status)
 			&& !simulation_finished(philo->table))
 			printf(W"%-6ld"RST" %d has taken a fork\n", elapsed, philo->id);
 		else if (EATING == status && !simulation_finished(philo->table))

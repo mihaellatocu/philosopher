@@ -6,7 +6,7 @@
 /*   By: mtocu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:07:38 by mtocu             #+#    #+#             */
-/*   Updated: 2024/08/02 19:04:42 by mtocu            ###   ########.fr       */
+/*   Updated: 2024/08/03 12:25:26 by mtocu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ void    parse_input(t_table *table, char **av)
 {
     table->philo_nbr = ft_atol(av[1]);
 	table->time_to_die = ft_atol(av[2]) * 1e3;
-	table->time_to_eat = ft_atol(av[2]) * 1e3;
-	table->time_to_sleep = ft_atol(av[2]) * 1e3;
+	table->time_to_eat = ft_atol(av[3]) * 1e3;
+	table->time_to_sleep = ft_atol(av[4]) * 1e3;
 	if (table->time_to_die < 6e4 || table->time_to_eat < 6e4
 		||table->time_to_sleep < 6e4)
 		error_exit("Use timestamp major than 60ms");

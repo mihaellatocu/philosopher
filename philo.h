@@ -6,7 +6,7 @@
 /*   By: mtocu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:06:21 by mtocu             #+#    #+#             */
-/*   Updated: 2024/08/02 19:41:30 by mtocu            ###   ########.fr       */
+/*   Updated: 2024/08/03 17:20:54 by mtocu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ typedef struct s_table
 	long	start_simulation;
 	bool	end_simulation; // a philo dies or all philos full
 	bool	all_threads_ready; //synco philos
+	long	threads_running_nbr;
+	pthread_t	monitor;
 	t_mtx	table_mutex;
 	t_mtx	write_mutex;
 	t_fork	*forks; //array of forks🍴
@@ -129,6 +131,7 @@ typedef struct s_table
 void	error_exit(const char *error);
 long	gettime(t_time_code time_code);
 void	precise_usleep(long usec, t_table *table);
+void	clean(t_table *table);
 
 /* parsing */
 void    parse_input(t_table *table, char **av);
@@ -152,5 +155,8 @@ bool	simulation_finished(t_table *table);
 /* Syncro utils */
 void	wait_all_threads(t_table *table);
 void	write_status(t_philo_status status, t_philo *philo, bool debug);
+void	increase_long(t_mtx *mutex, long *value);
 
 void	dinner_start(t_table *table);
+void	*monitor_dinner(void *data);
+bool	all_threads_runnig(t_mtx *mutex, long *threads, long philo_nbr);
