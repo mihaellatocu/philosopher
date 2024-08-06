@@ -6,7 +6,7 @@
 /*   By: mtocu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:07:10 by mtocu             #+#    #+#             */
-/*   Updated: 2024/08/02 18:37:52 by mtocu            ###   ########.fr       */
+/*   Updated: 2024/08/06 13:54:08 by mtocu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int main(int ac, char **av)
 		//3)
 		dinner_start(&table);
 		//4)No-leaks-> philos full| 1 philo died
-		//clean(&table);
+		clean(&table);
 	}
 	else
 	{

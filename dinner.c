@@ -6,7 +6,7 @@
 /*   By: mtocu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 14:29:41 by mtocu             #+#    #+#             */
-/*   Updated: 2024/08/03 17:16:50 by mtocu            ###   ########.fr       */
+/*   Updated: 2024/08/06 14:02:38 by mtocu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@
 //pthread_create-> philo start running, every philo start simulstaneosly
 //4 join everyone
 
-static void	thinking(t_philo *philo)
+void	thinking(t_philo *philo)
 {
-	write_status(THINKING, philo, DEBUG_MODE);
+	if (philo->table->philo_nbr % 2 == 0)
+		return ;
 }
 
 void	*lone_philo(void *arg)
@@ -74,7 +75,8 @@ void	*dinner_simulation(void *data)
 	
 	increase_long(&philo->table->table_mutex, &philo->table->threads_running_nbr);
 	
-	
+	//desincronise philos
+	de_syncronize_philos(philo);
 	// set last_meal time 
 	while (!simulation_finished(philo->table))
 	{

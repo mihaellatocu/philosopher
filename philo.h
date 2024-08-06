@@ -6,20 +6,22 @@
 /*   By: mtocu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:06:21 by mtocu             #+#    #+#             */
-/*   Updated: 2024/08/03 17:20:54 by mtocu            ###   ########.fr       */
+/*   Updated: 2024/08/06 19:56:42 by mtocu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h> //write, usleep
-#include <stdio.h>
-#include <stdlib.h> //malloc
-#include <stdbool.h>
-#include <pthread.h> //mutex: init dstroy lock unlock
+#ifndef PHILO_H
+# define PHILO_H
+# include <unistd.h> //write, usleep
+# include <stdio.h>
+# include <stdlib.h> //malloc
+# include <stdbool.h>
+# include <pthread.h> //mutex: init dstroy lock unlock
 					//threads: create join detach
-#include <sys/time.h> //gettimeofday
-#include <limits.h> //INT_MAX
-#include <errno.h>
-#include "lib/libft.h"
+# include <sys/time.h> //gettimeofday
+# include <limits.h> //INT_MAX
+# include <errno.h>
+# include "lib/libft.h"
 
 // ctrl + alt + down - to modify multiple fields
 // win + ; to emoji
@@ -30,17 +32,17 @@
 
 
 /* Ascii colors  */
-#define RST	"\033[0m"  		/* Reset to default color */
-#define RED	"\033[1;31m" 	/* Red */
-#define G	"\033[1;32m" 	/* Green */
-#define Y 	"\033[1;33m" 	/* Yellow */
-#define B	"\033[1;34m" 	/* Blue */
-#define M	"\033[1;35m" 	/* Magenta */
-#define C	"\033[1;36m" 	/* Cyan */
-#define W	"\033[1;37m" 	/* White */
+# define RST	"\033[0m"  		/* Reset to default color */
+# define RED	"\033[1;31m" 	/* Red */
+# define G	"\033[1;32m" 	/* Green */
+# define Y 	"\033[1;33m" 	/* Yellow */
+# define B	"\033[1;34m" 	/* Blue */
+# define M	"\033[1;35m" 	/* Magenta */
+# define C	"\033[1;36m" 	/* Cyan */
+# define W	"\033[1;37m" 	/* White */
 
 //for write fction macro
-#define DEBUG_MODE 0
+# define DEBUG_MODE 0
 
 /* OPCODE for mutex | thread functions */
 
@@ -120,10 +122,7 @@ typedef struct s_table
 
 }               t_table;
  
-// #ifndef PHILO_H
-// # define PHILO_H
 
-// #endif
 
 /* PROTOTYPES */
 
@@ -144,7 +143,6 @@ void	*safe_malloc(size_t bytes);
 void	safe_mutex_handle(t_mtx *mutex, t_opcode opcode);
 void	safe_thread_handle(pthread_t *thread, void *(*foo)(void *), void *data, t_opcode opcode);
 
-
 /*Setters and getters */
 void	set_bool(t_mtx *mutex, bool *dest, bool value);
 bool	get_bool(t_mtx *mutex, bool *value);
@@ -160,3 +158,9 @@ void	increase_long(t_mtx *mutex, long *value);
 void	dinner_start(t_table *table);
 void	*monitor_dinner(void *data);
 bool	all_threads_runnig(t_mtx *mutex, long *threads, long philo_nbr);
+
+void	de_syncronize_philos(t_philo *philo);
+void	thinking(t_philo *philo);
+void	*lone_philo(void *arg);
+
+#endif
