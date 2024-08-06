@@ -6,7 +6,7 @@
 /*   By: mtocu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 14:29:41 by mtocu             #+#    #+#             */
-/*   Updated: 2024/08/06 14:02:38 by mtocu            ###   ########.fr       */
+/*   Updated: 2024/08/06 20:11:07 by mtocu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,23 @@
 //pthread_create-> philo start running, every philo start simulstaneosly
 //4 join everyone
 
-void	thinking(t_philo *philo)
+void	thinking(t_philo *philo, bool pre_simulation)
 {
+	long	t_eat;
+	long	t_sleep;
+	long	t_think;
+	
+	if (!pre_simulation)
+		write_status(THINKING, philo, DEBUG_MODE);
 	if (philo->table->philo_nbr % 2 == 0)
 		return ;
+	//ODD
+	t_eat = philo->table->time_to_eat;
+	t_sleep = philo->table->time_to_sleep;
+	t_think = t_eat * 2 - t_sleep;
+	if (t_think < 0)
+		t_think = 0;
+	precise_usleep(t_think * 0.42 , philo->table);
 }
 
 void	*lone_philo(void *arg)
@@ -90,7 +103,7 @@ void	*dinner_simulation(void *data)
 		write_status(SLEEPING, philo, DEBUG_MODE);
 		precise_usleep(philo->table->time_to_sleep, philo->table);
 		
-		thinking(philo);
+		thinking(philo, false);
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: mtocu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 15:08:46 by mtocu             #+#    #+#             */
-/*   Updated: 2024/08/06 12:59:24 by mtocu            ###   ########.fr       */
+/*   Updated: 2024/08/06 20:10:23 by mtocu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,6 @@ void	de_syncronize_philos(t_philo *philo)
 	else
 	{
 		if (philo->id % 2)
-			thinking(philo);
+			thinking(philo, true);
 	}
 }

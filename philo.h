@@ -6,7 +6,7 @@
 /*   By: mtocu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:06:21 by mtocu             #+#    #+#             */
-/*   Updated: 2024/08/06 19:56:42 by mtocu            ###   ########.fr       */
+/*   Updated: 2024/08/06 20:09:44 by mtocu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void	*monitor_dinner(void *data);
 bool	all_threads_runnig(t_mtx *mutex, long *threads, long philo_nbr);
 
 void	de_syncronize_philos(t_philo *philo);
-void	thinking(t_philo *philo);
+void	thinking(t_philo *philo, bool pre_simulation);
 void	*lone_philo(void *arg);
 
 #endif
