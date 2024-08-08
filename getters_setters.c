@@ -6,7 +6,7 @@
 /*   By: mtocu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 14:52:44 by mtocu             #+#    #+#             */
-/*   Updated: 2024/08/02 14:59:47 by mtocu            ###   ########.fr       */
+/*   Updated: 2024/08/08 16:33:53 by mtocu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ bool	get_bool(t_mtx *mutex, bool *value)
 	safe_mutex_handle(mutex, UNLOCK);
 	return (ret);
 }
-
-//LONG
 
 long	get_long(t_mtx *mutex, long *value)
 {

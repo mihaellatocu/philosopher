@@ -6,7 +6,7 @@
 /*   By: mtocu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:49:26 by mtocu             #+#    #+#             */
-/*   Updated: 2024/08/03 17:37:46 by mtocu            ###   ########.fr       */
+/*   Updated: 2024/08/07 16:43:38 by mtocu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 /*Cronometer */
 //time_code ->SECONDS, MILISECONDS MICROSECONDS
-
 long	gettime(t_time_code time_code)
 {
-	struct timeval tv;
-	
+	struct timeval	tv;
+
 	if (gettimeofday(&tv, NULL))
 		error_exit("Gettimeofday failed");
 	if (SECOND == time_code)
@@ -32,9 +31,7 @@ long	gettime(t_time_code time_code)
 	return (1337);
 }
 
-
 /* Precise uslepp */
-
 void	precise_usleep(long usec, t_table *table)
 {
 	long	start;
@@ -48,20 +45,19 @@ void	precise_usleep(long usec, t_table *table)
 			break ;
 		elapsed = gettime(MICROSECOND) - start;
 		rem = usec - elapsed;
-
 		if (rem > 1e3)
 			usleep(rem / 2);
 		else
 		{
-			while (gettime(MICROSECOND) - start < usec) //spinlock
+			while (gettime(MICROSECOND) - start < usec)
 				;
 		}
-	}	
+	}
 }
 
 void	clean(t_table *table)
 {
-	t_philo *philo;
+	t_philo	*philo;
 	int		i;
 
 	i = -1;

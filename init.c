@@ -6,7 +6,7 @@
 /*   By: mtocu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 18:41:57 by mtocu             #+#    #+#             */
-/*   Updated: 2024/08/03 16:25:27 by mtocu            ###   ########.fr       */
+/*   Updated: 2024/08/07 16:39:31 by mtocu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,19 @@
 
 static void	assign_forks(t_philo *philo, t_fork *forks, int philo_position)
 {
-	int philo_nbr;
+	int	philo_nbr;
 
 	philo_nbr = philo->table->philo_nbr;
-	
 	philo->first_fork = &forks[(philo_position + 1) % philo_nbr];
-	philo->second_fork = &forks[philo_position ];
+	philo->second_fork = &forks[philo_position];
 	if (philo->id % 2 == 0)
 	{
 		philo->first_fork = &forks[philo_position];
 		philo->second_fork = &forks[(philo_position + 1) % philo_nbr];
 	}
-	
 }
 
-static void philo_init(t_table *table)
+static void	philo_init(t_table *table)
 {
 	int		i;
 	t_philo	*philo;
@@ -42,9 +40,7 @@ static void philo_init(t_table *table)
 		philo->meals_counter = 0;
 		philo->table = table;
 		safe_mutex_handle(&philo->philo_mutex, INIT);
-		//Ad hoc  i - poz in the table  
 		assign_forks(philo, table->forks, i);
-		
 	}
 }
 
@@ -60,7 +56,6 @@ void	data_init(t_table *table)
 	table->forks = safe_malloc(sizeof(t_fork) * table->philo_nbr);
 	safe_mutex_handle(&table->table_mutex, INIT);
 	safe_mutex_handle(&table->write_mutex, INIT);
-	
 	while (++i < table->philo_nbr)
 	{
 		safe_mutex_handle(&table->forks[i].fork, INIT);

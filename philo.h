@@ -6,7 +6,7 @@
 /*   By: mtocu <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:06:21 by mtocu             #+#    #+#             */
-/*   Updated: 2024/08/06 20:09:44 by mtocu            ###   ########.fr       */
+/*   Updated: 2024/08/08 17:16:18 by mtocu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,21 @@
 ./philo 5 800 200 200 [5]
 */
 
-
 /* Ascii colors  */
 # define RST	"\033[0m"  		/* Reset to default color */
 # define RED	"\033[1;31m" 	/* Red */
-# define G	"\033[1;32m" 	/* Green */
-# define Y 	"\033[1;33m" 	/* Yellow */
-# define B	"\033[1;34m" 	/* Blue */
-# define M	"\033[1;35m" 	/* Magenta */
-# define C	"\033[1;36m" 	/* Cyan */
-# define W	"\033[1;37m" 	/* White */
+# define G		"\033[1;32m" 	/* Green */
+# define Y 		"\033[1;33m" 	/* Yellow */
+# define B		"\033[1;34m" 	/* Blue */
+# define M		"\033[1;35m" 	/* Magenta */
+# define C		"\033[1;36m" 	/* Cyan */
+# define W		"\033[1;37m" 	/* White */
 
 //for write fction macro
 # define DEBUG_MODE 0
 
 /* OPCODE for mutex | thread functions */
-
-typedef enum	e_opcode
+typedef enum e_opcode
 {
 	LOCK,
 	UNLOCK,
@@ -54,16 +52,15 @@ typedef enum	e_opcode
 	DESTROY,
 	CREATE,
 	JOIN,
-	DETACH
+	DETACH,
 }		t_opcode;
 
-typedef enum	e_time_code
+typedef enum e_time_code
 {
 	SECOND,
 	MILISECOND,
 	MICROSECOND,
 }			t_time_code;
-
 
 /* Philo states*/
 typedef enum e_philo_status
@@ -79,7 +76,7 @@ typedef enum e_philo_status
 /* code more readable */
 typedef pthread_mutex_t	t_mtx;
 
-/* IOU for compiler */
+/* IOU for compiler ????????????*/
 typedef struct s_table	t_table;
 
 /* Fork */
@@ -87,9 +84,9 @@ typedef struct s_fork
 {
 	t_mtx	fork;
 	int		fork_id;
-}        	t_fork;
+}			t_fork;
 
-typedef struct		s_philo
+typedef struct s_philo
 {
 	int			id;
 	long		meals_counter;
@@ -103,26 +100,23 @@ typedef struct		s_philo
 }					t_philo;
 
 /* Table */
-typedef struct s_table
+struct s_table
 {
-	long	philo_nbr;
-	long	time_to_die;
-	long	time_to_eat;
-	long	time_to_sleep;
-	long	nbr_limit_meals; //[5]  flag if -1
-	long	start_simulation;
-	bool	end_simulation; // a philo dies or all philos full
-	bool	all_threads_ready; //synco philos
-	long	threads_running_nbr;
+	long		philo_nbr;
+	long		time_to_die;
+	long		time_to_eat;
+	long		time_to_sleep;
+	long		nbr_limit_meals; //[5]  flag if -1
+	long		start_simulation;
+	bool		end_simulation; // a philo dies or all philos full
+	bool		all_threads_ready; //synco philos
+	long		threads_running_nbr;
 	pthread_t	monitor;
-	t_mtx	table_mutex;
-	t_mtx	write_mutex;
-	t_fork	*forks; //array of forks🍴
-	t_philo	*philos; // array of philos
-
-}               t_table;
- 
-
+	t_mtx		table_mutex;
+	t_mtx		write_mutex;
+	t_fork		*forks; //array of forks🍴
+	t_philo		*philos; // array of philos
+};
 
 /* PROTOTYPES */
 
@@ -133,7 +127,7 @@ void	precise_usleep(long usec, t_table *table);
 void	clean(t_table *table);
 
 /* parsing */
-void    parse_input(t_table *table, char **av);
+void	parse_input(t_table *table, char **av);
 
 /* init */
 void	data_init(t_table *table);
@@ -141,7 +135,8 @@ void	data_init(t_table *table);
 /* safe functions */
 void	*safe_malloc(size_t bytes);
 void	safe_mutex_handle(t_mtx *mutex, t_opcode opcode);
-void	safe_thread_handle(pthread_t *thread, void *(*foo)(void *), void *data, t_opcode opcode);
+void	safe_thread_handle(pthread_t *thread, void *(*foo)(void *), void *data,
+			t_opcode opcode);
 
 /*Setters and getters */
 void	set_bool(t_mtx *mutex, bool *dest, bool value);
